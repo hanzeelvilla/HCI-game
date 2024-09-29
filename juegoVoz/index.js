@@ -70,82 +70,85 @@ const checkBounds = () => {
     if (posY + imgHeight > containerHeight) posY = containerHeight - imgHeight // No salir por abajo
 }
 
-
 document.addEventListener('keydown', (event) => {
     var keyValue = event.key;
     
     switch (keyValue) {
         case "w": {
-            posY -= step
+            posY -= step;
             imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
             break;
         }
         case "s": {
-            posY += step
+            posY += step;
             imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
             break;
         }
         case "a": {
-            posX -= step
+            posX -= step;
             imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
             break;
         }
         case "d": {
-            posX += step
+            posX += step;
             imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
             break;
         }
     }
 
-    checkBounds()
+    checkBounds();
 
     if (checkCollision()) {
-        imgViejon.style.display = "none" // Oculta la imagen viejon
-        imgCamaViejon.style.display = "none" // Oculta la cama
-        imgViejonDormido.style.position = "absolute" // Asegura que la nueva imagen sea posicionada
-        imgViejonDormido.style.left = imgCamaViejon.style.left // Posiciona la nueva imagen en la misma posición que la cama
-        imgViejonDormido.style.top = imgCamaViejon.style.top 
-        imgViejonDormido.style.display = "block" // Muestra la nueva imagen
+        // Actualiza la posición de imgViejonDormido ANTES de ocultar las otras imágenes
+        imgViejonDormido.style.position = "absolute";
+        imgViejonDormido.style.left = imgCamaViejon.style.left;  // Usa la misma posición que la cama
+        imgViejonDormido.style.top = imgCamaViejon.style.top;    // Usa la misma posición que la cama
+
+        // Ahora oculta imgViejon y la cama
+        imgViejon.style.display = "none";
+        imgCamaViejon.style.display = "none";
+        
+        // Finalmente muestra imgViejonDormido
+        imgViejonDormido.style.display = "block";
     }
 
 }, false);
 
 recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript.toLowerCase() // Captura el texto reconocido
-    resultText.textContent = `Resultado: ${transcript}`
+    const transcript = event.results[0][0].transcript.toLowerCase();
+    resultText.textContent = `Resultado: ${transcript}`;
 
-    // Lógica para mover la imagen según el comando de voz
+    // Mueve el viejon según el comando de voz
     if (transcript.includes("arriba")) {
-        posY -= step
-        console.log("Mover viejon arriba")
+        posY -= step;
     } else if (transcript.includes("abajo")) {
-        posY += step
-        console.log("Mover viejon abajo")
+        posY += step;
     } else if (transcript.includes("izquierda")) {
-        posX -= step
-        console.log("Mover viejon izquierda")
+        posX -= step;
     } else if (transcript.includes("derecha")) {
-        posX += step
-        console.log("Mover viejon derecha")
+        posX += step;
     }
 
-    // Verifica si la nueva posición está dentro de los límites del contenedor
-    checkBounds()
+    checkBounds();
 
-    // Aplica la nueva posición a la imagen
-    imgViejon.style.top = `${posY}px`
-    imgViejon.style.left = `${posX}px`
+    // Aplica la nueva posición a imgViejon usando transform (coherente con el teclado)
+    imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
 
-    // Verifica si hay colisión y muestra la nueva imagen si es necesario
     if (checkCollision()) {
-        imgViejon.style.display = "none" // Oculta la imagen viejon
-        imgCamaViejon.style.display = "none" // Oculta la cama
-        imgViejonDormido.style.position = "absolute" // Asegura que la nueva imagen sea posicionada
-        imgViejonDormido.style.left = imgCamaViejon.style.left // Posiciona la nueva imagen en la misma posición que la cama
-        imgViejonDormido.style.top = imgCamaViejon.style.top 
-        imgViejonDormido.style.display = "block" // Muestra la nueva imagen
+        // Actualiza la posición de imgViejonDormido ANTES de ocultar las otras imágenes
+        imgViejonDormido.style.position = "absolute";
+        imgViejonDormido.style.left = imgCamaViejon.style.left;  // Usa la misma posición que la cama
+        imgViejonDormido.style.top = imgCamaViejon.style.top;    // Usa la misma posición que la cama
+
+        // Ahora oculta imgViejon y la cama
+        imgViejon.style.display = "none";
+        imgCamaViejon.style.display = "none";
+        
+        // Finalmente muestra imgViejonDormido
+        imgViejonDormido.style.display = "block";
     }
-}
+};
+
 
 recognition.onend = () => {
     btnStart.disabled = false
