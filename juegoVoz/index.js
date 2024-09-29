@@ -5,6 +5,8 @@ const imgViejon = document.getElementById("imgViejon")
 const imgCamaViejon = document.getElementById("imgCamaViejon")
 const imgViejonDormido = document.getElementById("imgViejonDormido")
 
+const soundEffect = new Audio("./sound_effect.mp3")
+
 let posX = 0
 let posY = 0
 const step = 100
@@ -77,21 +79,25 @@ document.addEventListener('keydown', (event) => {
         case "w": {
             posY -= step;
             imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+            soundEffect.play()
             break;
         }
         case "s": {
             posY += step;
             imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+            soundEffect.play()
             break;
         }
         case "a": {
             posX -= step;
             imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+            soundEffect.play()
             break;
         }
         case "d": {
             posX += step;
             imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+            soundEffect.play()
             break;
         }
     }
