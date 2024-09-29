@@ -1,0 +1,28 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 50px auto;
+}
+
+.game-area {
+    width: 100%;
+    height: 1000px; 
+    border: 1px solid black; 
+    position: relative; /* Necesario para contener el movimiento absoluto de la imagen */
+    margin-top: 20px;
+}
+
+.imgViejon {
+    width: 250px;
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+}
+
+
+#imgViejonDormido {
+    width: 200px;
+    display: none;
+}
