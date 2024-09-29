@@ -7,7 +7,7 @@ const imgViejonDormido = document.getElementById("imgViejonDormido")
 
 let posX = 0
 let posY = 0
-const step = 200
+const step = 100
 
 // Función para obtener posición aleatoria dentro del game-area
 const getRandomPosition = (element) => {
@@ -41,13 +41,11 @@ const checkCollision = () => {
     const camaRect = imgCamaViejon.getBoundingClientRect()
 
     // Definimos un rango adicional para la colisión (puedes ajustarlo)
-    const buffer = 20 // Rango adicional en píxeles
-
     return (
-        viejonRect.left < camaRect.right + buffer &&
-        viejonRect.right > camaRect.left - buffer &&
-        viejonRect.top < camaRect.bottom + buffer &&
-        viejonRect.bottom > camaRect.top - buffer
+        viejonRect.left < camaRect.right &&
+        viejonRect.right > camaRect.left &&
+        viejonRect.top < camaRect.bottom &&
+        viejonRect.bottom > camaRect.top
     )
 }
 
@@ -71,6 +69,46 @@ const checkBounds = () => {
     if (posY < 0) posY = 0 // No salir por arriba
     if (posY + imgHeight > containerHeight) posY = containerHeight - imgHeight // No salir por abajo
 }
+
+
+document.addEventListener('keydown', (event) => {
+    var keyValue = event.key;
+    
+    switch (keyValue) {
+        case "w": {
+            posY -= step
+            imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+            break;
+        }
+        case "s": {
+            posY += step
+            imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+            break;
+        }
+        case "a": {
+            posX -= step
+            imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+            break;
+        }
+        case "d": {
+            posX += step
+            imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+            break;
+        }
+    }
+
+    checkBounds()
+
+    if (checkCollision()) {
+        imgViejon.style.display = "none" // Oculta la imagen viejon
+        imgCamaViejon.style.display = "none" // Oculta la cama
+        imgViejonDormido.style.position = "absolute" // Asegura que la nueva imagen sea posicionada
+        imgViejonDormido.style.left = imgCamaViejon.style.left // Posiciona la nueva imagen en la misma posición que la cama
+        imgViejonDormido.style.top = imgCamaViejon.style.top 
+        imgViejonDormido.style.display = "block" // Muestra la nueva imagen
+    }
+
+}, false);
 
 recognition.onresult = (event) => {
     const transcript = event.results[0][0].transcript.toLowerCase() // Captura el texto reconocido
