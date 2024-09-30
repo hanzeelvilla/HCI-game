@@ -74,7 +74,18 @@ const checkBounds = () => {
 }
 
 document.addEventListener('keydown', (event) => {
+
+    event.preventDefault()
+
     var keyValue = event.key;
+
+    if (keyValue == " ") {
+        btnStart.disabled = true
+        btnStart.textContent = "Procesando..."
+        btnStart.className = "btn-danger"
+
+        recognition.start()
+    }
     
     // Actualiza las posiciones primero
     switch (keyValue) {
@@ -158,8 +169,9 @@ recognition.onresult = (event) => {
         imgCamaViejon.style.display = "none";
         imgViejonDormido.style.display = "block";
         soundVictory.play();
-    }
-};
+
+    }   
+}
 
 
 recognition.onend = () => {
