@@ -281,7 +281,6 @@ btnReset.addEventListener("click", () => {
 
     // Elimina las minas existentes del DOM
     minas.forEach(mina => gameArea.removeChild(mina));
-    minas = []; // Limpia el array de minas
 
     // Reposiciona la cama aleatoriamente
     setCamaRandomPosition();
