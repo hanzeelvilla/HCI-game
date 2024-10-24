@@ -30,3 +30,32 @@
 #imgCamaViejon {
     width: 100px;
 }
+
+#resetBtn {
+    display: none;
+    position: absolute;
+    left: 45%;
+    top: 70%;
+    width: 200px;
+    font-size: 50px;
+    background-color: red;
+    color: white;
+    border-radius: 5px;
+    border-style: none;
+}
+
+#btnStart {
+    background-image: url(./caracola.png);
+    background-size: cover;
+    width: 200px;
+    height: 200px;
+    align-self: center;
+    border-style: none;
+}
+
+.mina {
+    background-image: url(./mina.png);
+    background-size: contain;
+    width: 100px;
+    height: 100px;
+}
