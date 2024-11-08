@@ -20,7 +20,7 @@ body {
     background-size: cover;
 }
 
-.imgViejon {
+.imgGary {
     width: 100px;
     position: absolute; 
     top: 0; 
@@ -28,13 +28,19 @@ body {
 }
 
 
-#imgViejonDormido {
+#imgGaryComiendo {
     width: 100px;
     display: none;
 }
 
-#imgCamaViejon {
+#easterEgg {
     width: 100px;
+    display: none;
+}
+
+#imgComedero {
+    width: 100px;
+    filter: drop-shadow(0 6px 15px rgba(255, 255, 0, 0.8));
 }
 
 #resetBtn {
@@ -61,7 +67,8 @@ body {
 
 .mina {
     background-image: url(./mina.png);
-    background-size: contain;
-    width: 100px;
+    background-size: cover;
+    width: 63px;
     height: 100px;
+    filter: drop-shadow(0 2px 5px rgba(255, 0, 0, 1));
 }

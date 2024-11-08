@@ -1,12 +1,13 @@
 const btnStart = document.getElementById("btnStart")
 const resultText = document.getElementById("result")
 const gameArea = document.querySelector(".game-area")
-const imgViejon = document.getElementById("imgViejon")
-const imgCamaViejon = document.getElementById("imgCamaViejon")
-const imgViejonDormido = document.getElementById("imgViejonDormido")
+const imgGary = document.getElementById("imgGary")
+const imgComedero = document.getElementById("imgComedero")
+const imgGaryComiendo = document.getElementById("imgGaryComiendo")
 const btnReset = document.getElementById("resetBtn");
-
-const soundEffect = new Audio("./sound_effect.mp3")
+const imgEasterEgg = document.getElementById("easterEgg");
+ 
+const soundEffect = new Audio("./miaunados.mp3")
 const soundVictory = new Audio("./victory.mp3")
 const soundExplosion = new Audio("./explosion.mp3")
 
@@ -32,10 +33,10 @@ const getRandomPosition = (element) => {
 
 // Posiciona la cama en una ubicación aleatoria dentro del área de juego
 const setCamaRandomPosition = () => {
-    const { randomX, randomY } = getRandomPosition(imgCamaViejon)
-    imgCamaViejon.style.position = "absolute"
-    imgCamaViejon.style.left = `${randomX}px`
-    imgCamaViejon.style.top = `${randomY}px`
+    const { randomX, randomY } = getRandomPosition(imgComedero)
+    imgComedero.style.position = "absolute"
+    imgComedero.style.left = `${randomX}px`
+    imgComedero.style.top = `${randomY}px`
 }
 
 // Posiciona minas en ubicaciones aleatorias
@@ -49,7 +50,7 @@ const setMinasRandomPositions = () => {
         let { randomX, randomY } = getRandomPosition(mina)
 
         // Asegurarse de que la mina no esté en la misma posición que la cama
-        const posCama = imgCamaViejon.getBoundingClientRect()
+        const posCama = imgComedero.getBoundingClientRect()
         const posMina = mina.getBoundingClientRect()
         while (
             randomX < posCama.right && randomX + posMina.width > posCama.left &&
@@ -76,7 +77,7 @@ window.onload = () => {
     setMinasRandomPositions()
 }
 
-// Función para verificar si imgViejon está dentro del rango de imgCamaViejon o minas
+// Función para verificar si imgGary está dentro del rango de imgComedero o minas
 const checkCollision = (rect1, rect2) => {
     return (
         rect1.left < rect2.right &&
@@ -88,8 +89,8 @@ const checkCollision = (rect1, rect2) => {
 
 // Función para verificar colisión con la cama o las minas
 const checkCollisions = () => {
-    const viejonRect = imgViejon.getBoundingClientRect()
-    const camaRect = imgCamaViejon.getBoundingClientRect()
+    const viejonRect = imgGary.getBoundingClientRect()
+    const camaRect = imgComedero.getBoundingClientRect()
 
     // Verificar colisión con la cama
     if (checkCollision(viejonRect, camaRect)) {
@@ -113,8 +114,8 @@ recognition.maxAlternatives = 1
 
 // Función para verificar los límites dentro del contenedor
 const checkBounds = () => {
-    const imgWidth = imgViejon.offsetWidth
-    const imgHeight = imgViejon.offsetHeight
+    const imgWidth = imgGary.offsetWidth
+    const imgHeight = imgGary.offsetHeight
     const containerWidth = gameArea.offsetWidth
     const containerHeight = gameArea.offsetHeight
 
@@ -165,7 +166,7 @@ const eventoTeclas = (event) => {
     checkBounds()
 
     // Aplica la nueva posición después de verificar los límites
-    imgViejon.style.transform = `translate(${posX}px, ${posY}px)`
+    imgGary.style.transform = `translate(${posX}px, ${posY}px)`
 
     soundEffect.currentTime = 0; // Reinicia el sonido
     soundEffect.play()
@@ -173,13 +174,20 @@ const eventoTeclas = (event) => {
     const collision = checkCollisions()
 
     if (collision === 'cama') {
-        imgViejonDormido.style.position = "absolute"
-        imgViejonDormido.style.left = imgCamaViejon.style.left
-        imgViejonDormido.style.top = imgCamaViejon.style.top
+        if (Math.floor(Math.random() * 100) == 77) {
+            imgEasterEgg.style.position = "absolute"
+            imgEasterEgg.style.left = imgComedero.style.left
+            imgEasterEgg.style.top = imgComedero.style.top
+            imgEasterEgg.style.display = "block"
+        } else {
+            imgGaryComiendo.style.position = "absolute"
+            imgGaryComiendo.style.left = imgComedero.style.left
+            imgGaryComiendo.style.top = imgComedero.style.top
+            imgGaryComiendo.style.display = "block"
+        }
 
-        imgViejon.style.display = "none"
-        imgCamaViejon.style.display = "none"
-        imgViejonDormido.style.display = "block"
+        imgGary.style.display = "none"
+        imgComedero.style.display = "none"
         btnReset.style.display = "block"
         soundVictory.play()
     } else if (collision === 'mina') {
@@ -223,19 +231,25 @@ recognition.onresult = (event) => {
 
     checkBounds(); // Verifica los límites
 
-    // Aplica la nueva posición a imgViejon usando transform (coherente con el teclado)
-    imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+    // Aplica la nueva posición a imgGary usando transform (coherente con el teclado)
+    imgGary.style.transform = `translate(${posX}px, ${posY}px)`;
 
     const collision = checkCollisions()
 
     if (collision === 'cama') {
-        imgViejonDormido.style.position = "absolute"
-        imgViejonDormido.style.left = imgCamaViejon.style.left
-        imgViejonDormido.style.top = imgCamaViejon.style.top
+        if (Math.floor(Math.random() * 10) == 1) {
+            imgEasterEgg.style.position = "absolute"
+            imgEasterEgg.style.left = imgComedero.style.left
+            imgEasterEgg.style.left = imgComedero.style.top
+        } else {
+            imgGaryComiendo.style.position = "absolute"
+            imgGaryComiendo.style.left = imgComedero.style.left
+            imgGaryComiendo.style.top = imgComedero.style.top
+        }
 
-        imgViejon.style.display = "none"
-        imgCamaViejon.style.display = "none"
-        imgViejonDormido.style.display = "block"
+        imgGary.style.display = "none"
+        imgComedero.style.display = "none"
+        imgGaryComiendo.style.display = "block"
         btnReset.style.display = "block"
         soundVictory.play()
     } else if (collision === 'mina') {
@@ -271,13 +285,14 @@ btnReset.addEventListener("click", () => {
     posX = 0;
     posY = 0;
 
-    // Restablece la visibilidad de imgViejon y imgCamaViejon
-    imgViejon.style.display = "block";
-    imgCamaViejon.style.display = "block"; 
-    imgViejonDormido.style.display = "none";
+    // Restablece la visibilidad de imgGary y imgComedero
+    imgGary.style.display = "block";
+    imgComedero.style.display = "block"; 
+    imgGaryComiendo.style.display = "none";
+    imgEasterEgg.style.display = "none";
 
-    // Restablece la posición inicial de imgViejon usando transform
-    imgViejon.style.transform = `translate(${posX}px, ${posY}px)`;
+    // Restablece la posición inicial de imgGary usando transform
+    imgGary.style.transform = `translate(${posX}px, ${posY}px)`;
 
     // Elimina las minas existentes del DOM
     minas.forEach(mina => gameArea.removeChild(mina));
